@@ -24,11 +24,11 @@ def post_convert(data, path):
     try:
         date_time_str = data['date']
         source_tzname = data['tz']
-        target_tzname = path.strip('/api/v1/convert/')
+        target_tzname = path.strip('/api/v1/convert/')        
         source_tz = pytz.timezone(source_tzname)
         target_tz = pytz.timezone(target_tzname)
         date_time = datetime.datetime.strptime(date_time_str, '%m.%d.%Y %H:%M:%S').replace(tzinfo=source_tz)
-        converted_date_time = date_time.astimezone(target_tz)
+        converted_date_time = date_time.astimezone(target_tz)        
         headers = [('Content-Type', 'application/json')]
         response_body = json.dumps({'converted_time': converted_date_time.strftime('%H:%M:%S %d.%m.%Y %Z')})
         return response_body, headers, 200
@@ -43,7 +43,7 @@ def post_datediff(data, path):
         first_date_time_str = data['first_date']
         first_tzname = data['first_tz']
         second_date_time_str = data['second_date']
-        second_tzname = data['second_tz']   
+        second_tzname = data['second_tz']        
         first_tz = pytz.timezone(first_tzname)
         second_tz = pytz.timezone(second_tzname)
         first_date_time = datetime.datetime.strptime(first_date_time_str, '%d.%m.%Y %H:%M:%S').replace(tzinfo=first_tz)
@@ -71,7 +71,7 @@ def error_messages(message, status_code):
     return response_body, headers, status_code
 def app(environ, response):
     method = environ['REQUEST_METHOD']
-    path = environ['PATH_INFO']
+    path = environ['PATH_INFO']    
     if method == 'GET':
         response_body, headers, status_code = get_time(path)
     elif method == 'POST' and '/api/v1/convert' in path:
